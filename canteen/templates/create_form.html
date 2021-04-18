@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class= "border-bottom mb-4">New Order Form</legend>
+                <div class="form-group">
+                    {{ form.starting_date.label(class="form-control-label") }}
+                    {% if form.starting_date.errors %}
+                        {{ form.starting_date(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.starting_date.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.starting_date(class="form-control form-control-lg") }}
+                    {% endif %}                       
+                </div>
+               
+                {% for i in range(5) %}
+                    <legend class= "border-bottom mb-2">{{form.day_names[i]}}</legend>
+                    {% for field in form.days[i] %}
+
+                        <div class="form-group">
+                            {{ field.label(class="form-control-label") }}
+                            {% if field.errors %}
+                                {{ field(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in field.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ field(class="form-control form-control-lg") }}
+                            {% endif %}                       
+                        </div>
+
+
+
+                    {% endfor %}
+                {% endfor %}
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>    
+        </form>
+    </div>
+{% endblock content %}
