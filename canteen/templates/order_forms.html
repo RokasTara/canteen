@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for order in orders.items %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+                <a href="{{url_for("orders.fill_order", order_form_id=order.id)}}"><h1>{{order.title}}</h1></a>
+                <small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <div class-"content-section">
+                <h5>Date Expired</h5>
+                <small>{{order.date_expired}}</small>
+                <h5>Date Started</h5>
+                <small>{{order.date_started}}</small>
+                <h5>Monday</h5>
+                <ul>
+                    <li>{{order.monday1}}</li>
+                    <li>{{order.monday2}}</li>
+                    <li>{{order.monday3}}</li>
+                </ul>
+
+                <h5>Tuesday</h5>
+                <ul>
+                    <li>{{order.tuesday1}}</li>
+                    <li>{{order.tuesday2}}</li>
+                    <li>{{order.tuesday3}}</li>
+                </ul>
+                <h5>Wednesday</h5>
+                <ul>
+                    <li>{{order.wednesday1}}</li>
+                    <li>{{order.wednesday2}}</li>
+                    <li>{{order.wednesday3}}</li>
+                </ul>
+                <h5>Thursday</h5>
+                <ul>
+                    <li>{{order.thursday1}}</li>
+                    <li>{{order.thursday2}}</li>
+                    <li>{{order.thursday3}}</li>
+                </ul>
+                <h5>Friday</h5>
+                <ul>
+                    <li>{{order.friday1}}</li>
+                    <li>{{order.friday2}}</li>
+                    <li>{{order.friday3}}</li>
+                </ul>
+            </div>
+          </div>
+        </article>
+    {% endfor %}
+
+    {% for page_num in orders.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+      {% if page_num %}
+        {% if orders.page == page_num %}
+          <a class="btn btn-page mb-4" href="{{url_for('orders.order_forms',page=page_num)}}">{{page_num}}</a>      
+        {% else %}
+          <a class="btn btn-page-outline mb-4" href="{{url_for('orders.order_forms',page=page_num)}}">{{page_num}}</a>
+        {% endif %}
+
+      {% else %}  
+        ...
+      {% endif %}
+
+    {% endfor %}
+{% endblock content %}

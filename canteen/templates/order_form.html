@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <h1>Fill {{title}}</h1>
+                <div class="form-group">
+                    {{ form.monday.label(class="form-control-label") }}
+                    {% if form.monday.errors %}
+                        {{ form.monday(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.monday.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.monday(class="form-control form-control-lg") }}
+                    {% endif %}                       
+                </div>
+                <div class="form-group">
+                    {{ form.tuesday.label(class="form-control-label") }}
+                    {% if form.tuesday.errors %}
+                        {{ form.tuesday(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.tuesday.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.tuesday(class="form-control form-control-lg") }}
+                    {% endif %}                       
+                </div>
+                <div class="form-group">
+                    {{ form.wednesday.label(class="form-control-label") }}
+                    {% if form.wednesday.errors %}
+                        {{ form.wednesday(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.wednesday.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.wednesday(class="form-control form-control-lg") }}
+                    {% endif %}                       
+                </div>
+                <div class="form-group">
+                    {{ form.thursday.label(class="form-control-label") }}
+                    {% if form.thursday.errors %}
+                        {{ form.thursday(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.thursday.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.thursday(class="form-control form-control-lg") }}
+                    {% endif %}                       
+                </div>
+                <div class="form-group">
+                    {{ form.friday.label(class="form-control-label") }}
+                    {% if form.friday.errors %}
+                        {{ form.friday(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.friday.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.friday(class="form-control form-control-lg") }}
+                    {% endif %}                       
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>    
+        </form>
+    </div>
+{% endblock content %}

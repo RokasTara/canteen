@@ -1,9 +1,9 @@
-from flask_wtf import FlaskForm 
+from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, DateField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from canteen.models import User
 from flask_login import current_user
+from canteen.models import User
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
@@ -47,48 +47,7 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError("User with this email already exists. Please sign In")
-
-
-class PostForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
-
-
-class OrderFormForm(FlaskForm):
-    starting_date = DateField("Starting date", validators=[DataRequired()])
-    days = [[
-        StringField('Username', validators=[DataRequired(), Length(min=2, max=20)]),
-        StringField('Meal choice 2', validators=[DataRequired()]),
-        StringField("Meal choice 3", validators=[DataRequired()])
-    ],
-    [
-        StringField("Meal choice 1", validators=[DataRequired()]),
-        StringField("Meal choice 2", validators=[DataRequired()]),
-        StringField("Meal choice 3", validators=[DataRequired()])
-    ],
-    [
-        StringField("Meal choice 1", validators=[DataRequired()]),
-        StringField("Meal choice 2", validators=[DataRequired()]),
-        StringField("Meal choice 3", validators=[DataRequired()])
-    ], 
-    [
-        StringField("Meal choice 1", validators=[DataRequired()]),
-        StringField("Meal choice 2", validators=[DataRequired()]),
-        StringField("Meal choice 3", validators=[DataRequired()])
-    ],
-    [
-        StringField("Meal choice 1", validators=[DataRequired()]),
-        StringField("Meal choice 2", validators=[DataRequired()]),
-        StringField("Meal choice 3", validators=[DataRequired()])
-    ]
-
-    ]
-    day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-
-    submit = SubmitField('Save')
-
-
+            
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
@@ -102,10 +61,6 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset password')
-
-
-
-
 
 
 
