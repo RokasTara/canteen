@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for order in orders.items %}
+        {% set time_left = order.date_expired - datetime.now()%}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a href="{{url_for("orders.single_order_view", order_id=order.id)}}"><h1>{{order.title}}</h1></a>
+                    <small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <div class-"content-section container">
+                {% set response = get_user_response(order)%}
+                {% if response %}
+                    <div class="row">
+                        {% if time_left > timedelta(0) %}
+                            <div class="col pt-md-2"><a class="btn btn-outline-secondary btn-lg" href="{{url_for("orders.update_order", order_id=order.id)}}">Update</a></div>
+                            <div class="col-sm">
+                                <h4>Time left to update:</h4>
+                                <p>{{time_left}}</p> 
+                            </div>      
+                        {% else %}
+                            <div class="col-sm">
+                                <h4>You can no longer update your order</h4>
+                            </div>  
+                        {% endif %}
+                    </div>
+
+                    <div class="pt-md-5">
+                        <h2>Your Order:</h2>
+                        <div class="content-section">
+                            <div class="row">
+                                <div class="col-sm"><h4>Monday:</h4></div>
+                                {% if response.monday == "None" %}
+                                    <div class="col-sm"><h4 class="text-danger">{{response.monday}}</h4></div>
+                                {% else %}
+                                    <div class="col-sm"><h4>{{response.monday}}</h4></div>
+                                {% endif %}
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-sm"><h4>Tuesday:</h4></div>
+                                {% if response.tuesday == "None" %}
+                                    <div class="col-sm"><h4 class="text-danger">{{response.tuesday}}</h4></div>
+                                {% else %}
+                                    <div class="col-sm"><h4>{{response.tuesday}}</h4></div>
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="col-sm"><h4>Wednesday:</h4></div>
+                                {% if response.wednesday == "None" %}
+                                    <div class="col-sm"><h4 class="text-danger">{{response.wednesday}}</h4></div>
+                                {% else %}
+                                    <div class="col-sm"><h4>{{response.wednesday}}</h4></div>
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="col-sm"><h4>Thursday:</h4></div>
+                                {% if response.thursday == "None" %}
+                                    <div class="col-sm"><h4 class="text-danger">{{response.thursday}}</h4></div>
+                                {% else %}
+                                    <div class="col-sm"><h4>{{response.thursday}}</h4></div>
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="col-sm"><h4>Friday:</h4></div>
+                                {% if response.friday == "None" %}
+                                    <div class="col-sm"><h4 class="text-danger">{{response.friday}}</h4></div>
+                                {% else %}
+                                    <div class="col-sm"><h4>{{response.friday}}</h4></div>
+                                {% endif %}
+                            </div>
+                        </div>  
+                    </div>
+                {% else %}
+                    <div class="row">
+                        {% if time_left > timedelta(0) %}
+                            <div class="col pt-md-2"><a class="btn btn-outline-secondary btn-lg" href="{{url_for("orders.fill_order", order_form_id=order.id)}}">Create Order</a></div>
+                            <div class="col-sm">
+                                <h4>Time left to create order:</h4>
+                                <p>{{time_left}}</p> 
+                            </div>      
+                        {% else %}
+                            <div class="col-sm">
+                                <h4>You can no longer create this order</h4>
+                            </div>  
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+        </article>
+
+    {% endfor %}
+
+    {% for page_num in orders.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+      {% if page_num %}
+        {% if orders.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{url_for('orders.order_view',page=page_num)}}">{{page_num}}</a>      
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{url_for('orders.order_view',page=page_num)}}">{{page_num}}</a>
+        {% endif %}
+
+      {% else %}  
+        ...
+      {% endif %}
+
+
+    {% endfor %}
+{% endblock content %}

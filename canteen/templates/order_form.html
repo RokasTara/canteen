@@ -4,7 +4,7 @@
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <h1>Fill {{title}}</h1>
+                <h1>{{legend}} "{{name}}"</h1>
                 <div class="form-group">
                     {{ form.monday.label(class="form-control-label") }}
                     {% if form.monday.errors %}

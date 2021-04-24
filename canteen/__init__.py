@@ -41,7 +41,7 @@ def create_app(config_class=Config):
 
     return app
 
-def dump_all_data():
+def dump_all_data(app):
     with app.app_context():
         db.drop_all()
         db.create_all()
@@ -56,7 +56,7 @@ def start_app():
     admin.add_view(ModelView(OrderForm, db.session))
     admin.add_view(ModelView(OrderResponse, db.session))
 
-    #dump_all_data()
+    #dump_all_data(app)
 
     return app
 

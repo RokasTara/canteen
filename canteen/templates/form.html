@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h1>{{order.title}}</h1>
+            <small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
+        </div>
+        <div class-"content-section">
+            <h5>Date Expired</h5>
+            <small>{{order.date_expired}}</small>
+            <h5>Date Started</h5>
+            <small>{{order.date_started}}</small>
+            <div class="row">
+                <div class="col">
+                <h5>Monday</h5>
+                <ul>
+                    <li>{{order.monday1}}</li>
+                    <li>{{order.monday2}}</li>
+                    <li>{{order.monday3}}</li>
+                </ul>
+                </div>
+                <div class="col">
+                <h5>Tuesday</h5>
+                <ul>
+                    <li>{{order.tuesday1}}</li>
+                    <li>{{order.tuesday2}}</li>
+                    <li>{{order.tuesday3}}</li>
+                </ul>
+                </div>
+                <div class="col">
+                <h5>Wednesday</h5>
+                <ul>
+                    <li>{{order.wednesday1}}</li>
+                    <li>{{order.wednesday2}}</li>
+                    <li>{{order.wednesday3}}</li>
+                </ul>
+                </div>
+                <div class="col">
+                <h5>Thursday</h5>
+                <ul>
+                    <li>{{order.thursday1}}</li>
+                    <li>{{order.thursday2}}</li>
+                    <li>{{order.thursday3}}</li>
+                </ul>
+                </div>
+                <div class="col">
+                <h5>Friday</h5>
+                <ul>
+                    <li>{{order.friday1}}</li>
+                    <li>{{order.friday2}}</li>
+                    <li>{{order.friday3}}</li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+{% endblock content %}

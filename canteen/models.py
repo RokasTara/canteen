@@ -73,6 +73,11 @@ class OrderForm(db.Model, UserMixin):
 
     responses = db.relationship('OrderResponse', backref="Order Form", lazy=True)
 
+    def __repr__(self):
+        return f"OrderForm('{self.title}', 'number of responses: {len(self.responses)}')"
+
+
+
 class OrderResponse(db.Model, UserMixin):
     __tablename__ = 'order_response'
     id = db.Column(db.Integer, primary_key=True)
