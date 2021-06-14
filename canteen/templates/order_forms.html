@@ -1,59 +1,105 @@
 {% extends "layout.html" %}
 {% block content %}
     {% for order in orders.items %}
-          <article class="media content-section">
+        <article class="media content-section">
             <div class="media-body">
-              <div class="article-metadata">
-                  <a href="{{url_for("orders.single_form_view", form_id=order.id)}}"><h1>{{order.title}}</h1></a>
-                  <small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
-              </div>
-            <div class-"content-section">
-                <h5>Date Expired</h5>
-                <small>{{order.date_expired}}</small>
-                <h5>Date Started</h5>
-                <small>{{order.date_started}}</small>
-                <div class="row">
-                  <div class="col">
-                    <h5>Monday</h5>
-                    <ul>
-                        <li>{{order.monday1}}</li>
-                        <li>{{order.monday2}}</li>
-                        <li>{{order.monday3}}</li>
-                    </ul>
-                  </div>
-                  <div class="col">
-                    <h5>Tuesday</h5>
-                    <ul>
-                        <li>{{order.tuesday1}}</li>
-                        <li>{{order.tuesday2}}</li>
-                        <li>{{order.tuesday3}}</li>
-                    </ul>
-                  </div>
-                  <div class="col">
-                    <h5>Wednesday</h5>
-                    <ul>
-                        <li>{{order.wednesday1}}</li>
-                        <li>{{order.wednesday2}}</li>
-                        <li>{{order.wednesday3}}</li>
-                    </ul>
-                  </div>
-                  <div class="col">
-                    <h5>Thursday</h5>
-                    <ul>
-                        <li>{{order.thursday1}}</li>
-                        <li>{{order.thursday2}}</li>
-                        <li>{{order.thursday3}}</li>
-                    </ul>
-                  </div>
-                  <div class="col">
-                    <h5>Friday</h5>
-                    <ul>
-                        <li>{{order.friday1}}</li>
-                        <li>{{order.friday2}}</li>
-                        <li>{{order.friday3}}</li>
-                    </ul>
+            	<div class="article-metadata">
+                  	<a href="{{url_for("orders.single_form_view", form_id=order.id)}}"><h1>{{order.title}}</h1></a>
+                  	<small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
+              	</div>
+            	<div class-"content-section container">
+                	<div class="row mb-5 mt-0 content-section">
+                  		<div class="col">
+                    		<h5>Expiration date</h5> 
+                    		<small>{{order.date_expired}}</small>
+                  		</div>
+                  		<div class="col">
+                    		<h5>Startring date</h5>
+                    		<small>{{order.date_started}}</small>
+                  		</div>
+                	</div>
+
+					<h1 class="mb-4">Choices</h1>
+					<div class="row">
+                  		<div class="col">
+                    	<h5>Monday</h5>
+                    		<ul>
+								{% if order.monday1 != "" %}
+								<li>{{order.monday1}}</li>
+								{% endif %}                        
+								{% if order.monday2 != "" %}
+								<li>{{order.monday3}}</li>
+								{% endif %}
+								{% if order.monday3 != "" %}
+								<li>{{order.monday3}}</li>
+								{% endif %}
+                    		</ul>
+                  		</div>
+						<div class="col">
+							<h5>Tuesday</h5>
+							<ul>
+								{% if order.tuesday1 != "" %}
+								<li>{{order.tuesday1}}</li>
+								{% endif %}                        
+								{% if order.tuesday2 != "" %}
+								<li>{{order.tuesday2}}</li>
+								{% endif %}
+								{% if order.tuesday3 != "" %}
+								<li>{{order.tuesday3}}</li>
+								{% endif %}
+							</ul>
+						</div>
+						<div class="col">
+							<h5>Wednesday</h5>
+							<ul>
+							{% if order.wednesday1 != "" %}
+								<li>{{order.wednesday1}}</li>
+								{% endif %}                        
+								{% if order.wednesday2 != "" %}
+								<li>{{order.twednesday}}</li>
+								{% endif %}
+								{% if order.wednesday3 != "" %}
+								<li>{{order.wednesday3}}</li>
+								{% endif %}
+							</ul>
+						</div>
+						<div class="col">
+							<h5>Thursday</h5>
+							<ul>
+							{% if order.thursday1 != "" %}
+								<li>{{order.thursday1}}</li>
+								{% endif %}                        
+								{% if order.thursday2 != "" %}
+								<li>{{order.thursday2}}</li>
+								{% endif %}
+								{% if order.thursday3 != "" %}
+								<li>{{order.thursday3}}</li>
+								{% endif %}
+							</ul>
+						</div>
+						<div class="col">
+							<h5>Friday</h5>
+							<ul>
+							{% if order.friday1 != "" %}
+								<li>{{order.friday1}}</li>
+								{% endif %}                        
+								{% if order.friday2 != "" %}
+								<li>{{order.friday2}}</li>
+								{% endif %}
+								{% if order.friday3 != "" %}
+								<li>{{order.friday3}}</li>
+								{% endif %}
+							</ul>
+						</div>
+                	</div>
+                <h1 class="mb-4 mt-5">Order information</h1>
+                <div class="content-section">
+                  <div class="row">
+                    <div class="col-sm text-center"><h4>Number of orders:</h4></div>
+                    <div class="col-sm text-center"><h4 class="text-danger">{{len(order.responses)}}</h4></div>
                   </div>
                 </div>
+                
             </div>
           </div>
         </article>

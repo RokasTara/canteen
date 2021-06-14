@@ -13,5 +13,3 @@ def home():
 @main.route('/about')
 def about():
     return render_template("about.html")
-
-    return render_template("create_form.html", title="New Form", form=form)

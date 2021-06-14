@@ -1,16 +1,18 @@
-from flask import (render_template, url_for, flash,
-                   redirect, request, abort, Blueprint)
+from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
+from flask.helpers import make_response
 from flask_login import current_user, login_required
-from canteen import db
+from canteen import db, admin_permission
 from canteen.models import OrderForm, OrderResponse
 from canteen.orders.forms import OrderFormForm, OrderFormResponse
 from datetime import date, datetime, timedelta
-from canteen.orders.utils import append_options, users_responded, get_user_response, add_order_choices
+from canteen.orders.utils import append_options, users_responded, get_user_response, add_order_choices, get_order_choices_counts
+import pdfkit
 
 orders = Blueprint('orders', __name__)
 
 @orders.route('/orders/forms/new', methods=['GET', 'POST'])
 @login_required
+@admin_permission.require()
 def new_order():
     form = OrderFormForm()
     if form.validate_on_submit():
@@ -23,10 +25,11 @@ def new_order():
 
 @orders.route('/orders/forms')
 @login_required
+@admin_permission.require()
 def order_forms():
     page = request.args.get('page', 1, type=int)
-    orders = OrderForm.query.order_by(OrderForm.date_posted.desc()).paginate(per_page=1, page=page)
-    return render_template("order_forms.html", orders=orders)
+    orders = OrderForm.query.order_by(OrderForm.date_posted.desc()).paginate(per_page=3, page=page)
+    return render_template("order_forms.html", orders=orders, len=len)
 
 @orders.route('/orders/<int:order_form_id>/fill', methods=['GET', 'POST'])
 @login_required
@@ -92,7 +95,24 @@ def update_order(order_id):
     
 @orders.route('/orders/forms/<int:form_id>/view')
 @login_required
+@admin_permission.require()
 def single_form_view(form_id):
     order = OrderForm.query.get_or_404(form_id)
-    return render_template("form.html", order=order)
+    choices = get_order_choices_counts(order)
+    return render_template("form.html", order=order, choices=choices, len=len)
 
+@orders.route('/orders/forms/<int:form_id>/pdf')
+@login_required
+@admin_permission.require()
+def single_form_pdf(form_id):
+    options = {'enable-local-file-access': None}
+    order = OrderForm.query.get_or_404(form_id)
+    choices = get_order_choices_counts(order)
+    rendered = render_template("form.html", order=order, choices=choices, len=len)
+    pdf = pdfkit.from_string(rendered, False, options=options)
+    
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+    
+    return response
