@@ -43,12 +43,10 @@ def create_app(config_class=Config):
     principal.init_app(app)
 
     from canteen.users.routes import users
-    from canteen.posts.routes import posts
     from canteen.main.routes import main 
     from canteen.errors.handlers import errors
     from canteen.orders.routes import orders
     app.register_blueprint(users)
-    app.register_blueprint(posts)
     app.register_blueprint(main)
     app.register_blueprint(errors)
     app.register_blueprint(orders)
@@ -64,10 +62,9 @@ def dump_all_data(app):
 def start_app():
     app = create_app()
 
-    from canteen.models import User, Post, OrderForm, OrderResponse
+    from canteen.models import User, OrderForm, OrderResponse
 
     admin.add_view(CanteenModelView(User, db.session))
-    admin.add_view(CanteenModelView(Post, db.session))
     admin.add_view(CanteenModelView(OrderForm, db.session))
     admin.add_view(CanteenModelView(OrderResponse, db.session))
 

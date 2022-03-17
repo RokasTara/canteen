@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
+
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
@@ -45,219 +46,276 @@
                         {{ form.date_started(class="form-control form-control-lg") }}
                     {% endif %}                       
                 </div>
-                <div class="content-section">
-                <h2>Monday</h2>
-                    <div class="form-group">
-                        {{ form.monday1.label(class="form-control-label") }}
-                        {% if form.monday1.errors %}
-                            {{ form.monday1(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.monday1.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
+
+
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="mondayHeading">
+                            <h4 class="mb-0">
+                                <a class="btn btn-link" data-toggle="collapse" data-target="#monday" aria-expanded="false" aria-controls="monday">
+                                    <h4>Monday</h4  >
+                                </a>
+                            </h4>
+                        </div>
+                
+                        <div id="monday" class="collapse" aria-labelledby="monday" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ form.monday1.label(class="form-control-label") }}
+                                    {% if form.monday1.errors %}
+                                        {{ form.monday1(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.monday1.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.monday1(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.monday2.label(class="form-control-label") }}
+                                    {% if form.monday2.errors %}
+                                        {{ form.monday2(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.monday2.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.monday2(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.monday3.label(class="form-control-label") }}
+                                    {% if form.monday3.errors %}
+                                        {{ form.monday3(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.monday3.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.monday3(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
                             </div>
-                        {% else %}
-                            {{ form.monday1(class="form-control form-control-lg") }}
-                        {% endif %}                       
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {{ form.monday2.label(class="form-control-label") }}
-                        {% if form.monday2.errors %}
-                            {{ form.monday2(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.monday2.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
+                    <div class="card">
+                        <div class="card-header" id="tuesdayHeading">
+                            <h4 class="mb-0">
+                                <a class="btn btn-link" data-toggle="collapse" data-target="#tuesday" aria-expanded="false" aria-controls="tuesday">
+                                    <h4>Tuesday</h4>
+                                </a>
+                            </h4>
+                        </div>
+                
+                        <div id="tuesday" class="collapse" aria-labelledby="tuesday" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ form.tuesday1.label(class="form-control-label") }}
+                                    {% if form.tuesday1.errors %}
+                                        {{ form.tuesday1(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.tuesday1.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.tuesday1(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.tuesday2.label(class="form-control-label") }}
+                                    {% if form.tuesday2.errors %}
+                                        {{ form.tuesday2(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.monday2.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.tuesday2(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.tuesday3.label(class="form-control-label") }}
+                                    {% if form.tuesday3.errors %}
+                                        {{ form.tuesday3(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.tuesday3.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.tuesday3(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
                             </div>
-                        {% else %}
-                            {{ form.monday2(class="form-control form-control-lg") }}
-                        {% endif %}                       
+                        </div>
+                    <div class="card">
+                        <div class="card-header" id="wednesdayHeading">
+                            <h4 class="mb-0">
+                                <a class="btn btn-link" data-toggle="collapse" data-target="#wednesday" aria-expanded="false" aria-controls="wednesday">
+                                    <h4>Wednesday</h4>
+                                </a>
+                            </h4>
+                        </div>
+                
+                        <div id="wednesday" class="collapse" aria-labelledby="wednesday" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ form.wednesday1.label(class="form-control-label") }}
+                                    {% if form.wednesday1.errors %}
+                                        {{ form.wednesday1(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.wednesday1.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.wednesday1(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.wednesday2.label(class="form-control-label") }}
+                                    {% if form.wednesday2.errors %}
+                                        {{ form.wednesday2(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.wednesday2.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.wednesday2(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.wednesday3.label(class="form-control-label") }}
+                                    {% if form.wednesday3.errors %}
+                                        {{ form.wednesday3(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.wednesday3.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.wednesday3(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                            </div>
+                        </div>
+                    <div class="card">
+                        <div class="card-header" id="thursdayHeading">
+                            <h4 class="mb-0">
+                                <a class="btn btn-link" data-toggle="collapse" data-target="#thursday" aria-expanded="false" aria-controls="thursday">
+                                    <h4>Thursday</h4>
+                                </a>
+                            </h4>
+                        </div>
+                
+                        <div id="thursday" class="collapse" aria-labelledby="thursday" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ form.thursday1.label(class="form-control-label") }}
+                                    {% if form.thursday1.errors %}
+                                        {{ form.thursday1(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.thursday1.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.thursday1(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.thursday2.label(class="form-control-label") }}
+                                    {% if form.thursday2.errors %}
+                                        {{ form.thursday2(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.thursday2.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.thursday2(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.thursday3.label(class="form-control-label") }}
+                                    {% if form.thursday3.errors %}
+                                        {{ form.thursday3(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.thursday3.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.thursday3(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {{ form.monday3.label(class="form-control-label") }}
-                        {% if form.monday3.errors %}
-                            {{ form.monday3(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.monday3.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
+                    <div class="card">
+                        <div class="card-header" id="fridayHeading">
+                            <h4 class="mb-0">
+                                <a class="btn btn-link" data-toggle="collapse" data-target="#friday" aria-expanded="false" aria-controls="friday">
+                                    <h4>Friday</h4>
+                                </a>
+                            </h4>
+                        </div>
+                
+                        <div id="friday" class="collapse" aria-labelledby="friday" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ form.friday1.label(class="form-control-label") }}
+                                    {% if form.friday1.errors %}
+                                        {{ form.friday1(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.friday1.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.friday1(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.friday2.label(class="form-control-label") }}
+                                    {% if form.friday2.errors %}
+                                        {{ form.friday2(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in formfriday2.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.friday2(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
+                                <div class="form-group">
+                                    {{ form.friday3.label(class="form-control-label") }}
+                                    {% if form.friday3.errors %}
+                                        {{ form.friday3(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.friday3.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.friday3(class="form-control form-control-lg") }}
+                                    {% endif %}                       
+                                </div>
                             </div>
-                        {% else %}
-                            {{ form.monday3(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                </div>
-                <div class="content-section">
-                <h2>Tuesday</h2>
-                    <div class="form-group">
-                        {{ form.tuesday1.label(class="form-control-label") }}
-                        {% if form.tuesday1.errors %}
-                            {{ form.tuesday1(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.tuesday1.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.tuesday1(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.tuesday2.label(class="form-control-label") }}
-                        {% if form.tuesday2.errors %}
-                            {{ form.tuesday2(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.tuesday2.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.tuesday2(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.tuesday3.label(class="form-control-label") }}
-                        {% if form.tuesday3.errors %}
-                            {{ form.tuesday3(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.tuesday3.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.tuesday3(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                </div>
-                <div class="content-section">
-                <h2>Wednesday</h2>
-                    <div class="form-group">
-                        {{ form.wednesday1.label(class="form-control-label") }}
-                        {% if form.wednesday1.errors %}
-                            {{ form.wednesday1(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.wednesday1.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.wednesday1(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.wednesday2.label(class="form-control-label") }}
-                        {% if form.wednesday2.errors %}
-                            {{ form.wednesday2(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.wednesday2.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.wednesday2(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.wednesday3.label(class="form-control-label") }}
-                        {% if form.wednesday3.errors %}
-                            {{ form.wednesday3(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.wednesday3.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.wednesday3(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                </div>
-                <div class="content-section"> 
-                <h2>Thursday</h2>   
-                    <div class="form-group">
-                        {{ form.thursday1.label(class="form-control-label") }}
-                        {% if form.thursday1.errors %}
-                            {{ form.thursday1(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.thursday1.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.thursday1(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.thursday2.label(class="form-control-label") }}
-                        {% if form.thursday2.errors %}
-                            {{ form.thursday2(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.thursday2.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.thursday2(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.thursday3.label(class="form-control-label") }}
-                        {% if form.thursday3.errors %}
-                            {{ form.thursday3(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.thursday3.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.thursday3(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                </div>
-                <div class="content-section">
-                    <h2>Friday</h2>
-                    <div class="form-group">
-                        {{ form.friday1.label(class="form-control-label") }}
-                        {% if form.friday1.errors %}
-                            {{ form.friday1(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.friday1.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.friday1(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.friday2.label(class="form-control-label") }}
-                        {% if form.friday2.errors %}
-                            {{ form.friday2(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.friday2.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.friday2(class="form-control form-control-lg") }}
-                        {% endif %}                       
-                    </div>
-                    <div class="form-group">
-                        {{ form.friday3.label(class="form-control-label") }}
-                        {% if form.friday3.errors %}
-                            {{ form.friday3(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.friday3.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.friday3(class="form-control form-control-lg") }}
-                        {% endif %}                       
+                        </div>
                     </div>
                 </div>
             </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+                {{ form.submit(class="btn btn-outline-secondary") }}
             </div>    
         </form>
     </div>

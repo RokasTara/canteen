@@ -1,5 +1,5 @@
 from canteen import db, login_manager
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
@@ -8,45 +8,6 @@ from flask import current_app
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    first_name = db.Column(db.String(120), nullable=False, default="first_name")
-    last_name = db.Column(db.String(120), nullable=False, default="last_name")
-    school_id = db.Column(db.String(20), nullable=False, default="00a00")
-    group = db.Column(db.String(20), nullable=False, default="0a")
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    password = db.Column(db.String(60), nullable=False)
-    role = db.Column(db.String(20), default='user')
-    posts = db.relationship('Post', backref='author', lazy=True)
-    responses = db.relationship('OrderResponse', backref="User", lazy=True)
-
-    def get_reset_token(self, expires_sec=1800):
-        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
-
-    @staticmethod
-    def verify_reset_token(token):
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token)['user_id']
-        except:
-            return None
-        return User.query.get(user_id)
-
-
-    def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
-     
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
-    content = db.Column(db.Text(), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class OrderForm(db.Model, UserMixin):
     __tablename__ = 'order_form'
@@ -81,6 +42,51 @@ class OrderForm(db.Model, UserMixin):
     def __repr__(self):
         return f"OrderForm('{self.title}', 'number of responses: {len(self.responses)}')"
 
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    first_name = db.Column(db.String(120), nullable=False, default="first_name")
+    last_name = db.Column(db.String(120), nullable=False, default="last_name")
+    school_id = db.Column(db.String(20), nullable=False, default="00a00")
+    group = db.Column(db.String(20), nullable=False, default="0a")
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    role = db.Column(db.String(20), default='user')
+    posts = db.relationship('Post', backref='author', lazy=True)
+    responses = db.relationship('OrderResponse', backref="User", lazy=True)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
+
+    def get_response(self, order_form: OrderForm):
+        for response in order_form.responses:
+            if self.id == response.user_id:
+                return response
+        return None
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.group}')"
+    
+     
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text(), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
 class OrderResponse(db.Model, UserMixin):

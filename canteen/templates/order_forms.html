@@ -1,108 +1,48 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for order in orders.items %}
-        <article class="media content-section">
-            <div class="media-body">
-            	<div class="article-metadata">
-                  	<a href="{{url_for("orders.single_form_view", form_id=order.id)}}"><h1>{{order.title}}</h1></a>
-                  	<small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
-              	</div>
-            	<div class-"content-section container">
-                	<div class="row mb-5 mt-0 content-section">
-                  		<div class="col">
-                    		<h5>Expiration date</h5> 
-                    		<small>{{order.date_expired}}</small>
-                  		</div>
-                  		<div class="col">
-                    		<h5>Startring date</h5>
-                    		<small>{{order.date_started}}</small>
-                  		</div>
-                	</div>
 
-					<h1 class="mb-4">Choices</h1>
-					<div class="row">
-                  		<div class="col">
-                    	<h5>Monday</h5>
-                    		<ul>
-								{% if order.monday1 != "" %}
-								<li>{{order.monday1}}</li>
-								{% endif %}                        
-								{% if order.monday2 != "" %}
-								<li>{{order.monday3}}</li>
-								{% endif %}
-								{% if order.monday3 != "" %}
-								<li>{{order.monday3}}</li>
-								{% endif %}
-                    		</ul>
-                  		</div>
+
+
+    {% for order, single_order_choices in zip(orders.items, choices) %}
+       <article class="media content-section">
+			<div class="media-body">
+				<div class="article-metadata">
+					<a href="{{url_for("orders.single_form_view", form_id=order.id)}}"><h1>{{order.title}}</h1></a>
+					<small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
+				</div>
+				<div class-"content-section">
+					<div class="row mb-2 mt-3">
 						<div class="col">
-							<h5>Tuesday</h5>
-							<ul>
-								{% if order.tuesday1 != "" %}
-								<li>{{order.tuesday1}}</li>
-								{% endif %}                        
-								{% if order.tuesday2 != "" %}
-								<li>{{order.tuesday2}}</li>
-								{% endif %}
-								{% if order.tuesday3 != "" %}
-								<li>{{order.tuesday3}}</li>
-								{% endif %}
-							</ul>
+							<h3>Date Expires:</h3> 
+							<p>{{order.date_expired}}</p>
 						</div>
 						<div class="col">
-							<h5>Wednesday</h5>
-							<ul>
-							{% if order.wednesday1 != "" %}
-								<li>{{order.wednesday1}}</li>
-								{% endif %}                        
-								{% if order.wednesday2 != "" %}
-								<li>{{order.twednesday}}</li>
-								{% endif %}
-								{% if order.wednesday3 != "" %}
-								<li>{{order.wednesday3}}</li>
-								{% endif %}
-							</ul>
+							<h3>Date Starts:</h3>
+							<p>{{order.date_started}}</p>
 						</div>
 						<div class="col">
-							<h5>Thursday</h5>
-							<ul>
-							{% if order.thursday1 != "" %}
-								<li>{{order.thursday1}}</li>
-								{% endif %}                        
-								{% if order.thursday2 != "" %}
-								<li>{{order.thursday2}}</li>
-								{% endif %}
-								{% if order.thursday3 != "" %}
-								<li>{{order.thursday3}}</li>
-								{% endif %}
-							</ul>
+							<div>
+							<h3>Number of orders:<span class="text-danger ml-3">{{len(order.responses)}}</span></h3>
+							</div>
 						</div>
-						<div class="col">
-							<h5>Friday</h5>
-							<ul>
-							{% if order.friday1 != "" %}
-								<li>{{order.friday1}}</li>
-								{% endif %}                        
-								{% if order.friday2 != "" %}
-								<li>{{order.friday2}}</li>
-								{% endif %}
-								{% if order.friday3 != "" %}
-								<li>{{order.friday3}}</li>
-								{% endif %}
-							</ul>
-						</div>
-                	</div>
-                <h1 class="mb-4 mt-5">Order information</h1>
-                <div class="content-section">
-                  <div class="row">
-                    <div class="col-sm text-center"><h4>Number of orders:</h4></div>
-                    <div class="col-sm text-center"><h4 class="text-danger">{{len(order.responses)}}</h4></div>
-                  </div>
-                </div>
-                
-            </div>
-          </div>
-        </article>
+					</div>
+					<h3 class="mb-2">Choices</h3>
+					<div class="row mb-2 ml-1 mr-1"> 
+						{% for day, options in single_order_choices.items() %}
+						<div class="col content-section">
+							<h5>{{day.capitalize()}}</h5>
+							{% for choice, count in options.items() %}
+								<div class="row">
+									<div class="col-8">{{choice.capitalize()}}</div>
+									<div class="col-4">{{count}}</div>
+								</div>  
+							{% endfor %}
+							</div>
+						{% endfor %} 
+					</div>
+				</div>
+			</div>
+		</article>
     {% endfor %}
 
     {% for page_num in orders.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
