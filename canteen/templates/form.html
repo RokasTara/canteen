@@ -48,6 +48,8 @@
         </div> 
         <div id="accordion" class="mt-5">
         {% for group in groups %}   
+            {% if group.name != "0a"%} 
+            
                     <div class="card">
                         <div class="card-header" id="{{group}}Heading">
                             <h4 class="mb-0">
@@ -117,7 +119,9 @@
                                 </table>
                             </div>
                         </div>
-                    </div>                
+                    </div>   
+            {% endif %}
+        {% else %}                     
         {% endfor %}
         </div>
     </div>

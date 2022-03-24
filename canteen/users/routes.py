@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
-from canteen import db, bcrypt, principal, admin_permission
-from canteen.models import User, Post
+from canteen import db, bcrypt, admin_permission
+from canteen.models import User
 from canteen.users.forms import (RegistrationForm, LogInForm, UpdateAccountForm,
                                    RequestResetForm, ResetPasswordForm)
 from canteen.users.utils import save_picture, send_reset_email
@@ -33,24 +33,28 @@ def register():
         return redirect(url_for('users.login'))
     return render_template("register.html", title="Register", form=form)
 
+#login page route
 @users.route('/login', methods=['GET', 'POST'])
 def login():
+    #redirecting to home page if user is already logged in
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     form = LogInForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
+        #if user exists and if the password matches with the password in the database
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
+            #principal identity gets updated with the user object
             identity = Identity(user.id)
             if current_user.role == "admin":
                 identity.can(admin_permission)
             identity_changed.send(current_app._get_current_object(), identity=identity)
             next_page = request.args.get('next')
+            #redirecting to the page that the user was trying to access before logging in or to the home page
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
-            flash("Wrong email or password. Please try again", 'danger')
-            
+            flash("Wrong email or password. Please try again", 'danger')        
     return render_template("login.html", title="LogIn", form=form)
 
 @users.route('/logout')
@@ -80,15 +84,6 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template("account.html", title="Account", image_file=image_file, form=form)
 
-    
-@users.route('/user/<string:username>')
-def user_posts(username):
-    page = request.args.get('page', 1, type=int)
-    user = User.query.filter_by(username=username).first_or_404()
-    posts = Post.query.filter_by(author=user)\
-        .order_by(Post.date_posted.desc())\
-        .paginate(per_page=5, page=page)
-    return render_template("user_posts.html", posts=posts, user=user)
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():

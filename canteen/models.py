@@ -9,7 +9,7 @@ from flask import current_app
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class OrderForm(db.Model, UserMixin):
+class OrderForm(db.Model):
     __tablename__ = 'order_form'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -39,6 +39,44 @@ class OrderForm(db.Model, UserMixin):
 
     responses = db.relationship('OrderResponse', backref="Order Form", lazy=True)
 
+    def get_oderform_options(self) -> dict:
+        keys = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+        output = {}
+        for key in keys:
+            tmp = {}
+            for i in range(3):
+                opt = getattr(self, str(key + str(i + 1)))
+                if opt:
+                    tmp.update({opt: 0})
+            output.update({key: tmp})
+        return output
+    
+    # returns list of ids of users that have already responded to the order form
+    def users_responded(self) -> list:
+        ids = []
+        for response in self.responses:
+            ids.append(response.user_id)
+        return ids
+    
+    def get_any_user_response(self, user_id: int):
+        for response in self.responses:
+            if user_id == response.user_id:
+                return response
+        return None
+    
+    # this function calculates the total count of options for an order form 
+    def get_order_choices_counts(self) -> dict:
+        choice_counts = self.get_oderform_options()
+        for response in self.responses:
+            for day, options in choice_counts.items():
+                ordered_opt = getattr(response, day)
+                for opt, value in options.items():
+                    if ordered_opt == opt:
+                        choice_counts[day][opt] += 1
+                        break
+
+        return choice_counts
+
     def __repr__(self):
         return f"OrderForm('{self.title}', 'number of responses: {len(self.responses)}')"
 
@@ -54,13 +92,14 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     role = db.Column(db.String(20), default='user')
-    posts = db.relationship('Post', backref='author', lazy=True)
     responses = db.relationship('OrderResponse', backref="User", lazy=True)
 
+    # generates the reset token for the user
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
+    # verifies the reset token and returns the user which generated the token to reset the password
     @staticmethod
     def verify_reset_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -75,21 +114,16 @@ class User(db.Model, UserMixin):
             if self.id == response.user_id:
                 return response
         return None
+    
 
+
+    #formats the user's object for printing on admin panel and when debugging
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.group}')"
     
-     
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
-    content = db.Column(db.Text(), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
-class OrderResponse(db.Model, UserMixin):
+class OrderResponse(db.Model):
     __tablename__ = 'order_response'
     id = db.Column(db.Integer, primary_key=True)
     date_posted = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)

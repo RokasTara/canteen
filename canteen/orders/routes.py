@@ -5,7 +5,7 @@ from canteen import db, admin_permission
 from canteen.models import OrderForm, OrderResponse, User
 from canteen.orders.forms import OrderFormForm, OrderFormResponse
 from datetime import date, datetime, timedelta
-from canteen.orders.utils import Group, append_options, generate_orderForm_name, get_multiple_order_choices_counts, users_responded, get_user_response, add_order_choices, get_order_choices_counts, next_monday, generate_orderForm_name
+from canteen.orders.utils import Group, append_options, generate_orderForm_name, get_multiple_order_choices_counts, get_user_response, add_order_choices, next_monday, generate_orderForm_name
 import pdfkit
 
 orders = Blueprint('orders', __name__)
@@ -32,7 +32,7 @@ def new_order():
 def fill_order(order_form_id):
     order_form = OrderForm.query.get_or_404(order_form_id)
     form = OrderFormResponse()
-    if current_user.id in users_responded(order_form):
+    if current_user.id in order_form.users_responded():
         flash('You have already placed an order for this week. Please try to update it', 'danger')
         return redirect(url_for("main.home"))
     if form.validate_on_submit():
@@ -94,7 +94,7 @@ def update_order(order_id):
 @admin_permission.require()
 def single_form_view(form_id):
     order = OrderForm.query.get_or_404(form_id)
-    choices = get_order_choices_counts(order)
+    choices = order.get_order_choices_counts()
     groups = Group.get_groups()
     return render_template("form.html", order=order, choices=choices, groups=groups, len=len, zip=zip)
 @orders.route('/orders/forms/<int:form_id>/pdf')
@@ -103,7 +103,7 @@ def single_form_view(form_id):
 def single_form_pdf(form_id):
     options = {'enable-local-file-access': None}
     order = OrderForm.query.get_or_404(form_id)
-    choices = get_order_choices_counts(order)
+    choices = order.get_order_choices_counts()
     groups = Group.get_groups()
     rendered = render_template("pdf.html", order=order, choices=choices, groups=groups, len=len, zip=zip)
     pdf = pdfkit.from_string(rendered, False, options=options)
@@ -119,6 +119,6 @@ def single_form_pdf(form_id):
 @admin_permission.require()
 def order_forms():
     page = request.args.get('page', 1, type=int)
-    orders = OrderForm.query.order_by(OrderForm.date_posted.desc()).paginate(per_page=5, page=page)
+    orders = OrderForm.query.order_by(OrderForm.date_posted.desc()).paginate(per_page=3, page=page)
     choices = get_multiple_order_choices_counts(orders)
     return render_template("order_forms.html", orders=orders, choices=choices, len=len, zip=zip)
