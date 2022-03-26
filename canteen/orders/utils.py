@@ -21,8 +21,6 @@ class Group():
     
     #returns a dictionary of ordered number of each meal for the specific group
     def get_order_counts(self, order_form: OrderForm) -> dict:
-        
-        #choice_counts = get_oderform_options(order_form)
         choice_counts = order_form.get_oderform_options()
         #iterates through all the students in the group
         for user in self.students:

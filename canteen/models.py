@@ -39,6 +39,7 @@ class OrderForm(db.Model):
 
     responses = db.relationship('OrderResponse', backref="Order Form", lazy=True)
 
+    # this function returns a nested dictionary of all the options for an order form with initialized 0 values for each choice
     def get_oderform_options(self) -> dict:
         keys = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         output = {}
@@ -115,8 +116,6 @@ class User(db.Model, UserMixin):
                 return response
         return None
     
-
-
     #formats the user's object for printing on admin panel and when debugging
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.group}')"

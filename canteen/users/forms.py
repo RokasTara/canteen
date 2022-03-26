@@ -23,8 +23,6 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password')])
     
-
-
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):

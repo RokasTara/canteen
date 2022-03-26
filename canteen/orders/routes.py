@@ -97,6 +97,7 @@ def single_form_view(form_id):
     choices = order.get_order_choices_counts()
     groups = Group.get_groups()
     return render_template("form.html", order=order, choices=choices, groups=groups, len=len, zip=zip)
+
 @orders.route('/orders/forms/<int:form_id>/pdf')
 @login_required
 @admin_permission.require()
@@ -107,7 +108,7 @@ def single_form_pdf(form_id):
     groups = Group.get_groups()
     rendered = render_template("pdf.html", order=order, choices=choices, groups=groups, len=len, zip=zip)
     pdf = pdfkit.from_string(rendered, False, options=options)
-    
+   
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
