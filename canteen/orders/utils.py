@@ -29,11 +29,9 @@ class Group():
                 for day, options in choice_counts.items():
                     #gets the option selected by the student for that day
                     ordered_opt = getattr(user.get_response(order_form), day)
-                    #iterates through all the options for that day increamenting the count for the option selected
-                    for opt, value in options.items():
-                        if ordered_opt == opt:
-                            choice_counts[day][opt] += 1
-                            break
+                    #if the option is not empty, then updating the count of the option for the day of the week
+                    if ordered_opt in options: 
+                        choice_counts[day][ordered_opt] += 1
         return choice_counts
     
 

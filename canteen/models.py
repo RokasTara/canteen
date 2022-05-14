@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -42,11 +43,16 @@ class OrderForm(db.Model):
     # this function returns a nested dictionary of all the options for an order form with initialized 0 values for each choice
     def get_oderform_options(self) -> dict:
         keys = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+        #creating an empty dictionary to store the options for each day
         output = {}
+        #iterating through the days of the week
         for key in keys:
+            #creating an empty inner dictionary to store the name of an option and its count
             tmp = {}
+            #iterating through the options for each day and saving them into the dictionary
             for i in range(3):
                 opt = getattr(self, str(key + str(i + 1)))
+                #if the option is not empty, then adding it to the dictionary
                 if opt:
                     tmp.update({opt: 0})
             output.update({key: tmp})
@@ -67,15 +73,17 @@ class OrderForm(db.Model):
     
     # this function calculates the total count of options for an order form 
     def get_order_choices_counts(self) -> dict:
+        #retrieving the options for each day of the week with initialized 0 values for each choice
         choice_counts = self.get_oderform_options()
+        #iterating through responses to update the count of each option for each day of the week
         for response in self.responses:
+            #iterating through the days of the week
             for day, options in choice_counts.items():
+                #retrieving an option ordered in the response
                 ordered_opt = getattr(response, day)
-                for opt, value in options.items():
-                    if ordered_opt == opt:
-                        choice_counts[day][opt] += 1
-                        break
-
+                #if the option is not empty, then updating the count of the option for the day of the week
+                if ordered_opt in options: 
+                    choice_counts[day][ordered_opt] += 1
         return choice_counts
 
     def __repr__(self):
