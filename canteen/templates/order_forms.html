@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block content %}
+
+ {% for order, single_order_choices in zip(orders.items, choices) %}
+  <article class="media content-section">
+			<div class="media-body">
+				<div class="article-metadata">
+					<a href="{{url_for("orders.single_form_view", form_id=order.id)}}"><h1>{{order.title}}</h1></a>
+					<small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
+				</div>
+				<div class-"content-section">
+					<div class="row mb-2 mt-3">
+						<div class="col">
+							<h3>Date Expires:</h3> 
+							<p>{{order.date_expired}}</p>
+						</div>
+						<div class="col">
+							<h3>Date Starts:</h3>
+							<p>{{order.date_started}}</p>
+						</div>
+						<div class="col">
+							<div>
+							<h3>Number of orders:<span class="text-danger ml-3">{{len(order.responses)}}</span></h3>
+							</div>
+						</div>
+					</div>
+					<h3 class="mb-2">Choices</h3>
+					<div class="row mb-2 ml-1 mr-1"> 
+						{% for day, options in single_order_choices.items() %}
+						<div class="col content-section">
+							<h5>{{day.capitalize()}}</h5>
+							{% for choice, count in options.items() %}
+								<div class="row">
+									<div class="col-8">{{choice.capitalize()}}</div>
+									<div class="col-4">{{count}}</div>
+								</div>  
+							{% endfor %}
+							</div>
+						{% endfor %} 
+					</div>
+				</div>
+			</div>
+		</article>
+    {% endfor %}
+
+    {% for page_num in orders.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+      {% if page_num %}
+        {% if orders.page == page_num %}
+          <a class="btn btn-page mb-4" href="{{url_for('orders.order_forms',page=page_num)}}">{{page_num}}</a>      
+        {% else %}
+          <a class="btn btn-page-outline mb-4" href="{{url_for('orders.order_forms',page=page_num)}}">{{page_num}}</a>
+        {% endif %}
+
+      {% else %}  
+        ...
+      {% endif %}
+
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="/Users/rokastarasevicius/Documents/canteen/canteen/static/main.css">
+
+    {% if title %}
+        <title>Canteen - {{ title }}</title>
+    {% else %}
+        <title>Canteen</title>
+    {% endif %}
+</head>
+
+<body class="pdf">
+    <article class="media">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h1>{{order.title}}</h1>
+                <small class="text-muted">{{ order.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <div>
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h3>Date Expires:</h3> 
+                        <p>{{order.date_expired}}</p>
+                    </div>
+                    <div class="col">
+                        <h3>Date Starts:</h3>
+                        <p>{{order.date_started}}</p>
+                    </div>
+                    <div class="col">
+                        <div>
+                        <h3>Number of orders:<span class="text-danger ml-3">{{len(order.responses)}}</span></h3>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="mb-2">Choices</h3>
+                <div class="row mb-2 ml-1 mr-1"> 
+                    {% for day, options in choices.items() %}
+                    <div class="col pdf-content-section">
+                        <h5>{{day.capitalize()}}</h5>
+                        {% for choice, count in options.items() %}
+                            <div class="row">
+                                <div class="col-8">{{choice.capitalize()}}</div>
+                                <div class="col-4">{{count}}</div>
+                            </div>  
+                        {% endfor %}
+                        </div>
+                    {% endfor %} 
+                </div>
+
+                <div class="mb-2 ml-1 mr-1">
+                    {% for group in groups %}
+                        {% if group.name !="0a"%}   
+                            <div class="pdf-content-section new-page"> 
+                                <h2>{{group.name}}</h2>
+                                <div class="row mb-2 ml-1 mr-1"> 
+                                    {% for day, options in group.get_order_counts(order).items() %}
+                                    <div class="col pdf-content-section">
+                                        <h5>{{day.capitalize()}}</h5>
+                                        {% for choice, count in options.items() %}
+                                            <div class="row">
+                                                <div class="col-8">{{choice.capitalize()}}</div>
+                                                <div class="col-4">{{count}}</div>
+                                            </div>  
+                                        {% endfor %}
+                                        </div>
+                                    {% endfor %} 
+                                </div>  
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">First Name</th>
+                                            <th scope="col">Last Name</th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Monday</th>
+                                            <th scope="col">Tuesday</th>
+                                            <th scope="col">Wednesday</th>
+                                            <th scope="col">Thursday</th>
+                                            <th scope="col">Friday</th>
+                                        </tr>
+                                    </thead>
+                                    {% for user, k in zip(group.students, range(group.students.count())) %}
+                                        <tr>
+                                            <th scope="row">{{k + 1}}</th>
+                                            <td>{{user.first_name}}</td>
+                                            <td>{{user.last_name}}</td>
+                                            <td>{{user.school_id}}</td>
+                                            {% if user.get_response(order) %}
+                                                <td>{{user.get_response(order).monday}}</td>
+                                                <td>{{user.get_response(order).tuesday}}</td>
+                                                <td>{{user.get_response(order).wednesday}}</td>
+                                                <td>{{user.get_response(order).thursday}}</td>
+                                                <td>{{user.get_response(order).friday}}</td>
+                                            {% else %}
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            {% endif%}
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </article>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+
